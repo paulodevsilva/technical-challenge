@@ -10,8 +10,14 @@ export class ConfigService {
   private readonly envConfig: { [key: string]: string };
 
   constructor() {
+    if (process.env.NODE_ENV == 'development') {
+      this.envConfig = dotenv.config({
+        path: `${process.env.NODE_ENV}.env`,
+      });
+    }
+
     this.envConfig = dotenv.config({
-      path: `${process.env.NODE_ENV}.env`,
+      path: `.env`,
     });
   }
 
