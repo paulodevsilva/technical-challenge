@@ -1,4 +1,4 @@
- include *.env
+ include .env
 
 .PHONY: up
 
@@ -8,7 +8,7 @@ up:
 .PHONY: down
 
 down:
-	 docker-compose down
+	docker-compose down
 
 .PHONY: logs
 
