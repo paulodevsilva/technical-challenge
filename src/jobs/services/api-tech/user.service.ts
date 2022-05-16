@@ -58,6 +58,40 @@ export class UserService {
     }
   }
 
+  async getContact(userId: string): Promise<any> {
+    try {
+      const response = await this.request.get(
+        `${this.credentials.url}/users/${userId}/contacts`,
+        {
+          headers: {
+            Authorization: `Basic ${Buffer.from(
+              `${this.credentials.username}:${this.credentials.password}`
+            ).toString('base64')}`,
+          },
+        }
+      );
+      const json = xmlToJson(`${response.data}`);
+
+      if (json.data.item.length > 1) {
+        const [contact] = json.data.item;
+        return contact;
+      }
+
+      return json.data.item;
+    } catch (err) {
+      if (HTTPUtil.Request.isRequestError(err)) {
+        throw new ErrorUtil(
+          `Error: ${JSON.stringify(err.response.data)} Code: ${
+            err.response.status
+          }`,
+          'User'
+        );
+      }
+
+      throw new ErrorUtil(err.message, 'User');
+    }
+  }
+
   async getAddress(userId: string): Promise<any> {
     try {
       const response = await this.request.get(

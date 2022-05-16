@@ -32,13 +32,14 @@ export default class UserConversionJob {
 
     execParallel(users, async (user) => {
       const address = await this.userService.getAddress(user.id);
+      const contact = await this.userService.getContact(user.id);
 
       const userPayload: IUser = {
         fullName: `${user.firstName} ${user.lastName}`,
         email: user.email,
         address: address.street,
         addressNumber: address.number['$t'],
-        phoneNumber: address.phoneNumber || '',
+        phoneNumber: contact.phoneNumber || '',
       };
 
       logger.info('User Payload', { userPayload });
