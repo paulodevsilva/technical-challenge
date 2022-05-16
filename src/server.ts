@@ -43,7 +43,7 @@ export class SetupServer extends Server {
   }
 
   private setupCron(): void {
-    cronJob('0 * * * *', () => {
+    cronJob('0 */20 * * * *', () => {
       Promise.all([userConversionJob.execute(), uploadFileJob.execute()]);
     });
   }
